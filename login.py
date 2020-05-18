@@ -4,7 +4,6 @@ from PIL import ImageTk
 import pickle
 import random
 import Registration
-
 from tkinter import messagebox
 
 #Basic Structure of window
@@ -28,6 +27,7 @@ with open('data.pkl', 'rb') as f:
 
 #checking if username and password is valid
 def check():
+    msg.place(x=440, y=450)
     global data
     if entry1.get()=='' or entry2.get()=='':
         messagebox.showerror('Field Empty!!!','Every field is Required')
@@ -46,6 +46,11 @@ def check():
 def reg():
     login.destroy()
     Registration.reg()
+
+def hid(event):
+    msg.config(text='')
+
+
 username=StringVar(value='admin')
 password=StringVar(value='admin123')
 
@@ -60,16 +65,18 @@ label1=Label(frame,text='Username',font='lucida 15 bold',bg='SlateGray1',fg='Sea
 label1.grid(row=1,column=0,pady=10,sticky=NW)
 entry1=Entry(frame,textvariable=username,width=35)
 entry1.grid(row=1,column=1,pady=10,sticky=NW)
+entry1.bind('<Button-1>',hid)
 
 
 label2=Label(frame,text='Password',font='lucida 15 bold',bg='SlateGray1',fg='Sea Green',relief=GROOVE)
 label2.grid(row=2,column=0,sticky=NW)
 entry2=Entry(frame,textvariable=password,width=35)
 entry2.grid(row=2,column=1,pady=10,sticky=NW)
+entry2.bind('<Button-1>',hid)
+
 
 msg=Label(login,bg='#fa203a',fg='black',font='comic 20')
-msg.place(x=440,y=450)
-
+#msg.place(x=440,y=450)
 
 button=Button(frame,text='Log in',command=check,width=15,bg='#279c5f')
 button.grid(row=3,column=1,pady=25)
