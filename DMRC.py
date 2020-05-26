@@ -17,8 +17,8 @@ def book():
     lable = Label(root)
     lable.pack()
     def cl():
-        for i in range(101):
-            time.sleep(0.01)
+        for i in range(41):
+            time.sleep(0.03)
             no=str(i)+'%'
             lable.config(text=no)
             lable.update()
@@ -26,6 +26,7 @@ def book():
 
     cl()
 
-
+    lb=Label(root,text='Under development thankyou for helping me in testing',bg='Green')
+    lb.place(x=100,y=100)
 
     root.mainloop()
