@@ -102,10 +102,10 @@ def checking():
 # changing background colour of buttons
 
 def red(event):
-    button2.config(bg='red')
+    button2.config(bg='#d04f5e')
 
 def blue(event):
-    button.config(bg='blue')
+    button.config(bg='#436a95')
 
 def normal(event):
     button.config(bg='white')
@@ -117,8 +117,8 @@ date = StringVar(value='01/05/2000')
 number = StringVar(value='1122334455')
 email = StringVar(value='test@shubham.com')
 
-quit_icon = ImageTk.PhotoImage(file='quiticon.png')
-register_icon = ImageTk.PhotoImage(file='Registericon.png')
+quit_icon = ImageTk.PhotoImage(file='quit_registartion.png')
+submit_icon = ImageTk.PhotoImage(file='Submit_button.png')
 background = ImageTk.PhotoImage(file='frame_bg.png')
 label_bg_win = Label(root, image=background)
 label_bg_win.grid(row=0, column=0)
@@ -138,45 +138,47 @@ lb2 = Label(text='-', bg='white', fg='white', width=22,height=0).place(x=396, y=
 lb3 = Label(text='', bg='white', fg='white', height=6).place(x=552.3, y=155)
 
 # making options in Frame
-label1 = Label(frame, text='Username', font='times 15 bold italic').place(x=0, y=95)
+label1 = Label(frame, text='Username', font='times 15 bold italic', bg='white').place(x=0, y=95)
 entry1 = Entry(frame, textvariable=username, width=35)
 entry1.place(x=95, y=101)
 entry1.bind('<Button-1>', hid_label_message)
 
-label2 = Label(frame, text='Password', font='times 15 bold italic').place(x=0, y=125)
+label2 = Label(frame, text='Password', font='times 15 bold italic', bg='white').place(x=0, y=125)
 entry2 = Entry(frame, textvariable=password, width=35, show='*')
 entry2.place(x=95, y=130)
 entry2.bind('<Button-1>', hid_label_message)
 
 # Password protection
-label2_part = Label(frame, text='show', font='1')
+label2_part = Label(frame, text='show', font='1', bg='white')
 label2_part.place(x=302, y=125)
 label2_part.bind('<Button-1>', protection)
 
 
-label3 = Label(frame, text='D.O.B.', font='times 15 bold italic').place(x=0, y=155)
+label3 = Label(frame, text='D.O.B.', font='times 15 bold italic', bg='white').place(x=0, y=155)
 entry3 = Entry(frame, textvariable=date, width=35)
 entry3.place(x=95, y=160)
-label3_part = Label(frame, text='DD/MM/YYYY', font='lucida 13 bold', fg='#158a45').place(x=312, y=155)
+label3_part = Label(frame, text='DD/MM/YYYY', font='lucida 13 bold', fg='#158a45', bg='white')
+label3_part.place(x=312, y=155)
 entry3.bind('<Button-1>', hid_label_message)
-
-label4 = Label(frame, text='Mobile no-', font='times 14 bold italic').place(x=0, y=185)
+label3_part2=Label(frame, text='Above 18', font='lucida 7 bold',fg='#158a45', bg='white')
+label3_part2.place(x=418, y=157)
+label4 = Label(frame, text='Mobile no-', font='times 14 bold italic', bg='white').place(x=0, y=185)
 entry4 = Entry(frame, textvariable=number, width=35)
 entry4.place(x=95, y=189)
 entry4.bind('<Button-1>', hid_label_message)
 
-label5 = Label(frame, text='Email ID', font='times 14 bold italic').place(x=0, y=215)
+label5 = Label(frame, text='Email ID', font='times 14 bold italic', bg='white').place(x=0, y=215)
 entry5 = Entry(frame, textvariable=email, width=35)
 entry5.place(x=95, y=218)
 
-label_message = Label(frame, font='consolas 12 bold italic')
-button = Button(frame, image=register_icon, command=checking, width=200, height=39, bd=0)
+label_message = Label(frame, font='consolas 12 bold italic', bg='white')
+button = Button(frame, image=submit_icon, command=checking, width=200, height=39, bd=0, bg='white')
 button.place(x=20, y=250)
 button.bind('<Enter>', blue)
 button.bind('<Leave>', normal)
 entry5.bind('<Button-1>', hid_label_message)
 
-button2 = Button(frame, image=quit_icon, width=200, height=39, bd=0, command=lambda: root.destroy())
+button2 = Button(frame, image=quit_icon, width=200, bg='white', height=39, bd=0, command=lambda: root.destroy())
 button2.bind('<Enter>', red)
 button2.bind('<Leave>', normal)
 button2.place(x=250, y=250)
