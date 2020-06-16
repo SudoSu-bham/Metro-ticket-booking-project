@@ -41,6 +41,8 @@ def protection(event):
 
 
 def checking():
+    with open('data.pkl', 'rb') as f:
+        data = pickle.load(f)
     label_message.place_forget()
     user = (entry1.get()).lower()
     passwrd = entry2.get()
@@ -57,8 +59,6 @@ def checking():
         prbar['value'] = i
         prbar.update()
         prbar['value'] = 0
-    with open('data.pkl', 'rb') as f:
-        data=pickle.load(f)
         # checking valid entries
         if user in data.keys():
             label_message.place(x=265, y=96)
@@ -69,33 +69,32 @@ def checking():
 
         elif len(passwrd) < 8:
             label_message.place(x=345, y=125)
-            label_message.config(text='Password invalid', fg='red')
+            label_message.config(text='invalid password', fg='red')
 
         elif len(dob) != 10 or int(dob[-4:]) > 2002:
             label_message.place(x=315, y=158)
-            label_message.config(text='D.O.B. not valid', fg='red')
+            label_message.config(text='invalid D.O.B.', fg='red')
 
         elif len(mobile) != 10:
             label_message.place(x=315, y=187)
-            label_message.config(text='Mobile no. invalid', fg='red')
+            label_message.config(text='invalid Mobile no.', fg='red')
 
         elif (len(email_id) < 7) or ('@' not in email_id) or ('.' not in email_id) or (' ' in email_id):
             label_message.place(x=315, y=215)
-            label_message.config(text='Email ID invalid', fg='red')
+            label_message.config(text='invalid Email ID', fg='red')
 
         # Saving the data of new user in sql and pickle file
         else:
-            print('Else is running')
             if (user not in data.keys()):
-                credential={user:passwrd}
-                with open('data.pkl', 'ab') as f:
-                    pickle.dump(credential, f)
+                data[user] = str(password)
+                print(data)
+                with open('data.pkl', 'wb') as f:
+                    pickle.dump(data, f)
                 conn = sqlite3.connect('Users_data.db')
                 conn.execute('''Insert into CREDENTIAL values(?,?,?,?,?)''',
-                             (entry1.get(),passwrd,dob,mobile,email_id))
+                             ((entry1.get()).lower(),passwrd,dob,mobile,email_id))
                 conn.commit()
-                for rows in conn.execute('''SELECT * FROM credential;'''):
-                    print(rows)
+                conn.close()
                 ans=messagebox.showinfo('Registartion successful','Congratulation you can now book'
                                         ' Metro tickets online')
     prbar.destroy()

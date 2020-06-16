@@ -2,9 +2,8 @@ try:
     from tkinter import *
     from PIL import ImageTk
     import pickle
-    import random
     from tkinter import messagebox
-    import lamda
+    import sqlite3
 except:
     print('Welcome to our Python project please note that this project require special libraries\n',
         'In order to run this project download "Pillow" library(type in cmd "pip3 install pillow")')
@@ -21,16 +20,18 @@ y = (hs / 2.3) - (h / 2)
 login.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
 login.resizable(width=False, height=False)
-# rgb=['#c45e56', '#de8983', '#f0b3af', '#d1996f', '#e3985f', '#e3b771', '#b8bf54', '#92bf54', '#76bf54',
-#      '#599c3a', '#3d7537' , '#37754b', '#235433', '#3f8a5e', '#3f8a6a', '#3f8a76', '#3f8a7f', '#60b5a9',
-#      '#51929c', '#396d75', '#4d869e', '#3b687a', '#2f7996', '#2f6d96', '#2f5f96', '#426ea1']
-#
 effect = '#27ccea'
 
-
+# Image of various buttons and baground
 baground = ImageTk.PhotoImage(file='metro_bg.jpg')
 bg_label = Label(login, image=baground).grid(row=0, column=0)
 log_logo = ImageTk.PhotoImage(file='circle-cropped.png')
+validate_button= ImageTk.PhotoImage(file='validate.png')
+quit_icon = ImageTk.PhotoImage(file='Quit_button.png')
+regbtn = ImageTk.PhotoImage(file='createAccount_button.png')
+log_in = ImageTk.PhotoImage(file='login_button.png')
+frg_submit = ImageTk.PhotoImage(file='forget_submit.png')
+cancel = ImageTk.PhotoImage(file='Cancel.png')
 
 #opening registered credential
 with open('data.pkl', 'rb') as f:
@@ -75,6 +76,98 @@ def protection(event):
         label2_part.config(text='show')
         State = 0
 
+# Forget password GUI
+def forget(event):
+    conn = sqlite3.connect('users_data.db') # Opening the sql database
+    username = StringVar(value='Sumukh')
+    email = StringVar(value='contact_me@sumukh.com')
+    mobl = StringVar(value='9999888822')
+    def back():  # back to login portal
+        frame_fgt.place_forget()
+        frame.place(x=400, y=50)
+    def validate():  # checking if credential is valid
+        def new_pass_validation():  # validating new password
+            if len(entry_newpass.get()) < 8:
+                messagebox.showerror('Too short password', 'Please enter password greater '
+                                        'than or equal to 8 digits')
+            elif entry_newpass.get() != entry_reenter.get():
+                messagebox.showerror('Password do not match', 'Retyped password'
+                                            ' should be same as the one entered above')
+            else:
+                with open('data.pkl', 'rb') as f:
+                    data = pickle.load(f)
+                    data[(entry2_frg.get()).lower()] = entry_newpass.get()
+                    with open('data.pkl', 'wb') as f:
+                        pickle.dump(data,f)
+                query_update = f'update credential SET password="{entry_newpass.get()}"' \
+                               f' where Username="{(entry2_frg.get()).lower()}";'
+                conn.execute(query_update)
+                conn.commit()
+                ans = messagebox.showinfo('Password changed','Congratulation password has been changed'
+                                    '\nClick "OK" to get back to login')
+                if ans=='ok':
+                    back()
+
+        query = f'Select mobile_number,Email_id from credential' \
+               f' where username="{(entry2_frg.get()).lower()}"'
+        userexist ='no'
+        for rows in conn.execute(query):
+            userexist='yes'
+            if str(rows[0]) == entry3_frg.get() and rows[1]== entry4_frg.get():
+                valid_button.place_forget()
+                cancel_btn.place(x=430, y=350)
+                submit_btn = Button(frame_fgt, image=frg_submit, bg='#2bc7ed',
+                                    bd=0, command=new_pass_validation)
+                submit_btn.place(x=200, y=350)
+
+                entry2_frg.config(state='disabled', disabledbackground='#2bc7ed')
+                entry3_frg.config(state='disabled', disabledbackground='#2bc7ed')
+                entry4_frg.config(state='disabled', disabledbackground='#2bc7ed')
+
+                label_newpass = Label(frame_fgt, text='New password', bg='#2bc7ed', font='10')
+                label_newpass.place(x=177, y=230)
+                entry_newpass = Entry(frame_fgt, bg=effect, width=35, bd=2)
+                entry_newpass.place(x=285, y=230)
+
+                label_reenter = Label(frame_fgt, text='Retype', bg='#2bc7ed', font='10')
+                label_reenter.place(x=198, y=270)
+                entry_reenter = Entry(frame_fgt, bg=effect, width=35, bd=2)
+                entry_reenter.place(x=285, y=270)
+            else:
+                messagebox.showerror('Not valid', 'One or more details are wrong please correct them')
+
+        if entry2_frg.get()=='' or entry3_frg.get()=='' or entry4_frg.get()=='':
+            messagebox.showerror('Empty Field Error!!','One or more fields are empty please fill all')
+        elif userexist == 'no':
+            messagebox.showerror('User not found!!', f'There is no user'
+                f' name "{entry2_frg.get()}" use the registered account name')
+    frame.place_forget()
+    frame_fgt = Frame(login, height=450, width=800, bg='#2bc7ed', relief=GROOVE, bd=7)
+    frame_fgt.place(x=300, y=50)
+    label1_frg = Label(frame_fgt, text='Change password', font='times 25', bg='#2bc7ed')
+    label1_frg.place(x=20, y=20)
+
+    label2_frg = Label(frame_fgt, text='Username',bg='#2bc7ed', font='10')
+    label2_frg.place(x=200, y=120)
+    entry2_frg = Entry(frame_fgt, bg=effect, width=35,bd=2, textvariable=username)
+    entry2_frg.place(x=285, y=120)
+
+    label3_frg = Label(frame_fgt, text='Mobile no-', bg='#2bc7ed', font='10')
+    label3_frg.place(x=200, y=150)
+    entry3_frg = Entry(frame_fgt, bg=effect, width=35, bd=2, textvariable=mobl)
+    entry3_frg.place(x=285, y=150)
+
+    label4_frg = Label(frame_fgt, text='Email id', bg='#2bc7ed', font='10')
+    label4_frg.place(x=200, y=180)
+    entry4_frg = Entry(frame_fgt, bg=effect, width=35, bd=2, textvariable=email)
+    entry4_frg.place(x=285, y=180)
+
+    valid_button=Button(frame_fgt, image=validate_button, bg='#2bc7ed', bd=0, command=validate)
+    valid_button.place(x=260, y=230)
+
+    cancel_btn = Button(frame_fgt, image=cancel, command=back, bg='#2bc7ed',bd=0)
+    cancel_btn.place(x=280, y=350)
+
 
 username=StringVar(value='admin')
 password=StringVar(value='admin123')
@@ -110,17 +203,18 @@ label2_part.bind('<Button-1>', protection)
 
 msg=Label(login, bg='#fa203a', fg='black', font='comic 20')
 
-log_in = ImageTk.PhotoImage(file='login_button.png')
 button=Button(frame,image=log_in,command=check,bd=0,bg=effect)
-button.place(x=40, y=330)
+button.place(x=40, y=310)
 
-quit_icon = ImageTk.PhotoImage(file='Quit_button.png')
+label_forget=Label(frame,text='Forgot password?', bg=effect, fg='blue',font='times 10')
+label_forget.place(x=155, y=355)
+label_forget.bind('<Button-1>',forget)
+
 button1=Button(frame, image=quit_icon, command=lambda: login.destroy(),bd=0, bg=effect)
-button1.place(x=200, y=330)
+button1.place(x=210, y=310)
 
-regbtn=ImageTk.PhotoImage(file='createAccount_button.png')
-register=Button(login, image=regbtn, command=reg, bg=effect,bd=0, font='comic 10 bold')
-register.place(x=500,y=440)
+register=Button(frame, image=regbtn, command=reg, bg=effect,bd=0, font='comic 10 bold')
+register.place(x=90, y=380)
 
 
 login.mainloop()
