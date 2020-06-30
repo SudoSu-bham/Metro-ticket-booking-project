@@ -1,18 +1,22 @@
 from tkinter import *
 import time
+from PIL import ImageTk
 
-root=Tk()
+root = Tk()
 root.title('Online Metro Ticket')
 root.iconbitmap('metro_logo.ico')
-    #root.geometry('500x500')
-w = 500
-h = 550
-ws= root.winfo_screenwidth()
-hs= root.winfo_screenheight()
+w = 1150
+h = 610
+ws = root.winfo_screenwidth()
+hs = root.winfo_screenheight()
 x = (ws / 2) - (w / 2)
 y = (hs / 2) - (h / 2)
 root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+root.resizable(width=False, height=False)
 
+background = ImageTk.PhotoImage(file='DMRC_bg.jpg')
+label_bg = Label(root, image=background)
+label_bg.grid(row=0, column=0)
 
 
 

@@ -206,14 +206,14 @@ msg=Label(login, bg='#fa203a', fg='black', font='comic 20')
 button=Button(frame,image=log_in,command=check,bd=0,bg=effect)
 button.place(x=40, y=310)
 
-label_forget=Label(frame,text='Forgot password?', bg=effect, fg='blue',font='times 10')
+label_forget=Label(frame, text='Forgot password?', bg=effect, fg='blue', font='times 10')
 label_forget.place(x=155, y=355)
 label_forget.bind('<Button-1>',forget)
 
-button1=Button(frame, image=quit_icon, command=lambda: login.destroy(),bd=0, bg=effect)
+button1=Button(frame, image=quit_icon, command=lambda: login.destroy(), bd=0, bg=effect)
 button1.place(x=210, y=310)
 
-register=Button(frame, image=regbtn, command=reg, bg=effect,bd=0, font='comic 10 bold')
+register=Button(frame, image=regbtn, command=reg, bg=effect, bd=0, font='comic 10 bold')
 register.place(x=90, y=380)
 
 
