@@ -1,0 +1,16 @@
+					Thankyou
+
+We would like to express our special thanks of gratitude to our teacher "Shadhana ma'am" as well as our
+principal "Protima ma'am" who gave us the golden opportunity to do this wonderful project on the topic
+"Metro ticket Booking", which also helped us in doing a lot of Research and we came to know about so many
+new things we are really thankful to them.
+
+Secondly we would also like to thank our parents and friends who helped us a lot in finalizing this project.
+A project is a bridge between theoretical and practical learning and with this thinking we worked on the
+project and made it successful due to timely support and efforts of our team members.
+
+The project is made with the team of three students of class 12th:
+
+			{Programm written by}         -----  Shubham Tiwari
+			{Frames/design by}             -----  Sumukh
+			{Fare SQL querie by}           -----  Anith Sivarajan
